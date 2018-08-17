@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: "postgres:9.6.5"
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "p0stgres"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  pgadmin:
+    links:
+      - db:postgres_srv
+    image: dpage/pgadmin4
+    volumes:
+      - admindata:/root/.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+  admindata:
